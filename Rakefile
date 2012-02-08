@@ -14,6 +14,12 @@ end
 
 task :default => :spec
 
+namespace :db do
+  task :migrate do
+    puts `cd spec/dummy && rake db:migrate RAILS_ENV=test && rake db:migrate RAILS_ENV=development`
+  end
+end
+
 namespace :spec do
   task :install do
     puts `bundle install --gemfile=gemfiles/Gemfile.rails3_0`
