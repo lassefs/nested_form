@@ -73,6 +73,7 @@ By default <tt>fields_for</tt> inside <tt>nested_form_for</tt> will add <div cla
   <% end %>
   <p><%= f.link_to_add "Add a task", :tasks %></p>
 
+
 == SimpleForm and Formtastic Support
 
 Use <tt>simple_nested_form_for</tt> or <tt>semantic_nested_form_for</tt> for SimpleForm and Formtastic support respectively. This is feature is not yet in a Gem release but is in the Git repo.
