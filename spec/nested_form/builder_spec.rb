@@ -29,9 +29,9 @@ require "spec_helper"
         end.should == '<div class="fields">Task</div><div class="fields">Task</div>'
       end
 
-      it "should not wrap nested fields if wrapper is disabled" do
+      it "should not wrap nested fields if fields_wrapper is disabled" do
         2.times { @project.tasks.build }
-        @builder.fields_for(:tasks, :wrapper => false) do
+        @builder.fields_for(:tasks, :fields_wrapper => false) do
           "Task"
         end.should == 'TaskTask'
       end
