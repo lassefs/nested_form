@@ -22,7 +22,7 @@ module NestedForm
       @template.after_nested_form(association) do
         model_object = object.class.reflect_on_association(association).klass.new
         output = %Q[<script type="text/html" id="#{association}_fields_blueprint">].html_safe
-        output << fields_for(association, model_object, :child_index => "new_#{association}", :wrapper => @fields[association][:wrapper], &@fields[association][:block])
+        output << fields_for(association, model_object, :child_index => "new_#{association}", :wrapper => @fields[association][:fields_wrapper], &@fields[association][:block])
         output.safe_concat('</script>')
         output
       end
@@ -60,8 +60,8 @@ module NestedForm
         options = args.extract_options!
       end
 
-      wrapper = options.key?(:wrapper) ? options[:wrapper] : true
-      options[:wrapper] = wrapper
+      wrapper = options.key?(:fields_wrapper) ? options[:fields_wrapper] : true
+      options[:fields_wrapper] = wrapper
 
       if convert
         args[0] << options
@@ -70,12 +70,12 @@ module NestedForm
       end
 
       @fields ||= {}
-      @fields[association_name] = { :block => block, :wrapper => wrapper }
+      @fields[association_name] = { :block => block, :fields_wrapper => wrapper }
       super(association_name, *(args << block))
     end
 
     def fields_for_nested_model(name, object, options, block)
-      if options[:wrapper]
+      if options[:fields_wrapper]
         output = '<div class="fields">'.html_safe
         output << super
         output.safe_concat('</div>')
