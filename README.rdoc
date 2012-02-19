@@ -65,9 +65,9 @@ You will then be able to use +link_to_add+ and +link_to_remove+ helper methods o
   <% end %>
   <p><%= f.link_to_add "Add a task", :tasks %></p>
 
-By default <tt>fields_for</tt> inside <tt>nested_form_for</tt> will add <div class="fields"> wrapper for every nested object. Sometimes you do not need it (for example if you insert <tr>-s into table). You can disable this functionality by providing <tt>:wrapper => false</tt> option (by default it is true):
+By default <tt>fields_for</tt> inside <tt>nested_form_for</tt> will add <div class="fields"> wrapper for every nested object. Sometimes you do not need it (for example if you insert <tr>-s into table). You can disable this functionality by providing <tt>:fields_wrapper => false</tt> option (by default it is true):
 
-  <%= f.fields_for :tasks, :wrapper => false do |task_form| %>
+  <%= f.fields_for :tasks, :fields_wrapper => false do |task_form| %>
     <%= task_form.text_field :name %>
     <%= task_form.link_to_remove "Remove this task" %>
   <% end %>
