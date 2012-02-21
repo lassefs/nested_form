@@ -22,7 +22,7 @@ module NestedForm
       @template.after_nested_form(association) do
         model_object = object.class.reflect_on_association(association).klass.new
         output = %Q[<script type="text/html" id="#{association}_fields_blueprint">].html_safe
-        output << fields_for(association, model_object, :child_index => "new_#{association}", :wrapper => @fields[association][:fields_wrapper], &@fields[association][:block])
+        output << fields_for(association, model_object, :child_index => "new_#{association}", :fields_wrapper => @fields[association][:fields_wrapper], &@fields[association][:block])
         output.safe_concat('</script>')
         output
       end
