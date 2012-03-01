@@ -65,9 +65,24 @@ You will then be able to use +link_to_add+ and +link_to_remove+ helper methods o
   <% end %>
   <p><%= f.link_to_add "Add a task", :tasks %></p>
 
-By default <tt>fields_for</tt> inside <tt>nested_form_for</tt> will add <div class="fields"> wrapper for every nested object. Sometimes you do not need it (for example if you insert <tr>-s into table). You can disable this functionality by providing <tt>:fields_wrapper => false</tt> option (by default it is true):
+By default <tt>fields_for</tt> inside <tt>nested_form_for</tt> will add <div class="fields"> wrapper for every nested object. Sometimes you need not the <div>, but the <tr> (if you insert rows into table). Now you can specify wrapping tag by providing <tt>:wrapper_tag => 'tr'</tt> option (by default it is 'div'):
 
-  <%= f.fields_for :tasks, :fields_wrapper => false do |task_form| %>
+  <table>
+    <%= f.fields_for :tasks, :wrapper_tag => 'tr' do |task_form| %>
+      <td>
+        <%= task_form.hidden_field :id %>
+        <%= task_form.text_field :name %>
+        <%= task_form.link_to_remove "Remove this task" %>
+      </td>
+    <% end %>
+  </table>
+  <p><%= f.link_to_add "Add a task", :tasks %></p>
+
+You should specify id field, cause form_for will insert it between <td>-s and this is not pretty good.
+
+Also, you can specify :wrapper_class, which will be added "fields" class in wrapper element:
+
+  <%= f.fields_for :tasks, :wrapper_class => 'task' do |task_form| %>
     <%= task_form.text_field :name %>
     <%= task_form.link_to_remove "Remove this task" %>
   <% end %>
