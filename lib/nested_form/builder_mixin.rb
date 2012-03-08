@@ -1,5 +1,10 @@
 module NestedForm
   module BuilderMixin
+
+    def set_block_for_add(association, &block)
+      @block_for_add = {association => block}
+    end
+
     # Adds a link to insert a new associated records. The first argument is the name of the link, the second is the name of the association.
     #
     #   f.link_to_add("Add Task", :tasks)
@@ -22,7 +27,11 @@ module NestedForm
       @template.after_nested_form(association) do
         model_object = object.class.reflect_on_association(association).klass.new
         output = %Q[<script type="text/html" id="#{association}_fields_blueprint">].html_safe
-        output << fields_for(association, model_object, :child_index => "new_#{association}", :wrapper_tag => @fields[association][:wrapper_tag], :wrapper_class => @fields[association][:wrapper_class], &@fields[association][:block])
+
+        block_for_add = @block_for_add.is_a?(Hash) && @block_for_add[association].is_a?(Proc) ? @block_for_add[association] : @fields[association][:block]
+        output << simple_fields_for(association, model_object, :child_index => "new_#{association}", :wrapper_tag => @fields[association][:wrapper_tag], :wrapper_class => @fields[association][:wrapper_class], &block_for_add)
+
+        #output << simple_fields_for(association, model_object, :child_index => "new_#{association}", :wrapper_tag => @fields[association][:wrapper_tag], :wrapper_class => @fields[association][:wrapper_class], &@fields[association][:block])
         output.safe_concat('</script>')
         output
       end
