@@ -2,7 +2,8 @@ module NestedForm
   module BuilderMixin
 
     def set_block_for_add(association, &block)
-      @block_for_add = {association => block}
+      @block_for_add ||= {}
+      @block_for_add.merge({association => block})
     end
 
     # Adds a link to insert a new associated records. The first argument is the name of the link, the second is the name of the association.
